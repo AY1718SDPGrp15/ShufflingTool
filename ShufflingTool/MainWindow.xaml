@@ -6,11 +6,14 @@
         xmlns:local="clr-namespace:ShufflingTool"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  
-        mc:Ignorable="d"
-        Title="Shuffling Tool" Height="450" Width="650" TitleCaps="False" TitleCharacterCasing="Normal" 
+        mc:Ignorable="d" WindowState="Maximized"
+        Title="Shuffling Tool"  TitleCaps="False" TitleCharacterCasing="Normal" 
         ShowTitleBar="True" BorderBrush="{DynamicResource PrimaryHueDarkBrush}">
     <Grid>
-        <TextBlock HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" Text="Welcome to the reshuffling tool" VerticalAlignment="Top" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
-
+        <Grid VerticalAlignment="Top">
+            <Button Content="Open Raw Data File" HorizontalAlignment="Left" />
+            <TextBlock HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" Text="Welcome to the reshuffling tool" VerticalAlignment="Top" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
+            <Button Content="Reshuffle" HorizontalAlignment="Right" />
+        </Grid>
     </Grid>
 </metro:MetroWindow>
