@@ -10,10 +10,6 @@
         Title="Shuffling Tool"  TitleCaps="False" TitleCharacterCasing="Normal" 
         ShowTitleBar="True" BorderBrush="{DynamicResource PrimaryHueDarkBrush}">
     <Grid>
-        <Grid VerticalAlignment="Top">
-            <Button Content="Open Raw Data File" HorizontalAlignment="Left" />
-            <TextBlock HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" Text="Welcome to the reshuffling tool" VerticalAlignment="Top" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
-            <Button Content="Reshuffle" HorizontalAlignment="Right" />
-        </Grid>
+        <local:MainView />
     </Grid>
 </metro:MetroWindow>
