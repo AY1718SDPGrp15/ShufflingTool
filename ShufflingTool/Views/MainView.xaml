@@ -8,11 +8,51 @@
              Background="{DynamicResource MaterialDesignPaper}"
              d:DesignHeight="600" d:DesignWidth="900">
     <Grid VerticalAlignment="Top">
-        <Grid VerticalAlignment="Top" Margin="10,20,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" VerticalAlignment="Top" Margin="10,20,10,0">
             <Button Content="Open Raw Data File" HorizontalAlignment="Left" />
             <TextBlock HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" Text="Welcome to the reshuffling tool" VerticalAlignment="Top" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
             <Button Content="Reshuffle" HorizontalAlignment="Right" />
         </Grid>
-        <StackPanel HorizontalAlignment="Left" Height="52" Margin="-200,254,0,-254" VerticalAlignment="Top" Width="100"/>
+        <StackPanel Grid.Row="1" Orientation="Vertical" Grid.IsSharedSizeScope="True">
+            <Grid HorizontalAlignment="Center" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" SharedSizeGroup="Months"/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Months" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
+                <TextBlock Grid.Column="1" Text="Inventory Value Savings" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
+                <Button Grid.Row="1" Content="January" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="2" Content="February" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="3" Content="March" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="4" Content="April" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="5" Content="May" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="6" Content="June" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="7" Content="July" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="8" Content="August" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="9" Content="September" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="10" Content="October" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="11" Content="November" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="12" Content="December" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+            </Grid>
+        </StackPanel>
     </Grid>
 </UserControl>
