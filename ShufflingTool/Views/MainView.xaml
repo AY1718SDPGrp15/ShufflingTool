@@ -13,7 +13,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" VerticalAlignment="Top" Margin="10,20,10,0">
-            <Button Content="Open Raw Data File" HorizontalAlignment="Left" />
+            <Button Name="openRawDataButton" Content="Update SQL Database" HorizontalAlignment="Left" />
             <TextBlock HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" Text="Welcome to the reshuffling tool" VerticalAlignment="Top" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
             <Button Content="Reshuffle" HorizontalAlignment="Right" />
         </Grid>

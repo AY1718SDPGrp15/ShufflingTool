@@ -10,6 +10,20 @@
         Title="Shuffling Tool"  TitleCaps="False" TitleCharacterCasing="Normal" 
         ShowTitleBar="True" BorderBrush="{DynamicResource PrimaryHueDarkBrush}">
     <Grid>
-        <local:MainView />
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignFlatButton}" Name="updateSqlDbButton" Click="updateSqlDbButton_Click" Content="Update SQL Database"/>
+            <Button Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignFlatButton}" Name="reshuffleButton" Click="reshuffleButton_Click" Content="Reshuffling Tool" />
+        </Grid>
+        <Button Grid.Row="1" Style="{StaticResource MaterialDesignFlatButton}" Content="Main Menu" />
     </Grid>
 </metro:MetroWindow>
