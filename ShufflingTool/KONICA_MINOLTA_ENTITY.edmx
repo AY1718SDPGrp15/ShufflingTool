@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KONICA_MINOLTA_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="KONICA_MINOLTA_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DEMAND">
           <Key>
             <PropertyRef Name="ID" />
@@ -39,6 +39,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NAME" Type="nvarchar(max)" />
+          <Property Name="SKU_TYPE_LINK_ID" Type="int" />
         </EntityType>
         <EntityType Name="SKU_TYPE">
           <Key>
@@ -83,6 +84,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SKU_SKU_TYPE_SKU">
+          <End Role="SKU_TYPE" Type="Self.SKU_TYPE" Multiplicity="0..1" />
+          <End Role="SKU" Type="Self.SKU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SKU_TYPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SKU">
+              <PropertyRef Name="SKU_TYPE_LINK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="KONICA_MINOLTA_DBModelStoreContainer">
           <EntitySet Name="DEMAND" EntityType="Self.DEMAND" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOCATION" EntityType="Self.LOCATION" Schema="dbo" store:Type="Tables" />
@@ -101,9 +114,12 @@
             <End Role="SKU" EntitySet="SKU" />
             <End Role="DEMAND" EntitySet="DEMAND" />
           </AssociationSet>
+          <AssociationSet Name="FK_SKU_SKU_TYPE_SKU" Association="Self.FK_SKU_SKU_TYPE_SKU">
+            <End Role="SKU_TYPE" EntitySet="SKU_TYPE" />
+            <End Role="SKU" EntitySet="SKU" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KONICA_MINOLTA_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -147,6 +163,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DEMANDs" Relationship="Self.FK_DEMAND_SKU_DEMAND" FromRole="SKU" ToRole="DEMAND" />
+          <Property Name="SKU_TYPE_LINK_ID" Type="Int32" />
+          <NavigationProperty Name="SKU_TYPE" Relationship="KONICA_MINOLTA_DBModel.FK_SKU_SKU_TYPE_SKU" FromRole="SKU" ToRole="SKU_TYPE" />
         </EntityType>
         <EntityType Name="SKU_TYPE">
           <Key>
@@ -154,6 +172,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SKUs" Relationship="KONICA_MINOLTA_DBModel.FK_SKU_SKU_TYPE_SKU" FromRole="SKU_TYPE" ToRole="SKU" />
         </EntityType>
         <Association Name="FK_DEMAND_LOCATION_DEMAND">
           <End Role="LOCATION" Type="Self.LOCATION" Multiplicity="0..1" />
@@ -209,7 +228,23 @@
             <End Role="SKU" EntitySet="SKUs" />
             <End Role="DEMAND" EntitySet="DEMANDs" />
           </AssociationSet>
+          <AssociationSet Name="FK_SKU_SKU_TYPE_SKU" Association="KONICA_MINOLTA_DBModel.FK_SKU_SKU_TYPE_SKU">
+            <End Role="SKU_TYPE" EntitySet="SKU_TYPE" />
+            <End Role="SKU" EntitySet="SKUs" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_SKU_SKU_TYPE_SKU">
+          <End Type="KONICA_MINOLTA_DBModel.SKU_TYPE" Role="SKU_TYPE" Multiplicity="0..1" />
+          <End Type="KONICA_MINOLTA_DBModel.SKU" Role="SKU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SKU_TYPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SKU">
+              <PropertyRef Name="SKU_TYPE_LINK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -250,6 +285,7 @@
           <EntitySetMapping Name="SKUs">
             <EntityTypeMapping TypeName="KONICA_MINOLTA_DBModel.SKU">
               <MappingFragment StoreEntitySet="SKU">
+                <ScalarProperty Name="SKU_TYPE_LINK_ID" ColumnName="SKU_TYPE_LINK_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
               </MappingFragment>

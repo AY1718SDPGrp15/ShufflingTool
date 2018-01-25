@@ -14,4 +14,6 @@ Partial Public Class SKU_TYPE
     Public Property ID As Integer
     Public Property NAME As String
 
+    Public Overridable Property SKUs As ICollection(Of SKU) = New HashSet(Of SKU)
+
 End Class

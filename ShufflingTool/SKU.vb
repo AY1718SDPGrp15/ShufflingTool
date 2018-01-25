@@ -13,7 +13,9 @@ Imports System.Collections.Generic
 Partial Public Class SKU
     Public Property ID As Integer
     Public Property NAME As String
+    Public Property SKU_TYPE_LINK_ID As Nullable(Of Integer)
 
     Public Overridable Property DEMANDs As ICollection(Of DEMAND) = New HashSet(Of DEMAND)
+    Public Overridable Property SKU_TYPE As SKU_TYPE
 
 End Class
