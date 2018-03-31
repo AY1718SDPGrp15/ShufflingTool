@@ -5,17 +5,36 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="KONICA_MINOLTA_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="DEMAND">
+        <EntityType Name="DEMANDs">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DATE_TIME" Type="date" />
+          <Property Name="DATE_TIME" Type="datetime" />
           <Property Name="SKU_LINK_ID" Type="int" />
           <Property Name="LOCATION_LINK_ID" Type="int" />
           <Property Name="ORDER_DETAILS_LINK_ID" Type="int" />
         </EntityType>
-        <EntityType Name="LOCATION">
+        <EntityType Name="INVENTORies">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LOCATION_LINK_ID" Type="int" />
+          <Property Name="SKU_LINK_ID" Type="int" />
+          <Property Name="QTY" Type="int" />
+        </EntityType>
+        <EntityType Name="LAST_DEMAND_DATA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DATE_TIME" Type="datetime" />
+          <Property Name="SKU_LINK_ID" Type="int" />
+          <Property Name="LOCATION_LINK_ID" Type="int" />
+          <Property Name="ORDER_DETAILS_LINK_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="LOCATIONs">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -33,90 +52,100 @@
           <Property Name="TYPE" Type="nvarchar(max)" />
           <Property Name="ORDER_QTY" Type="int" />
         </EntityType>
-        <EntityType Name="SKU">
+        <EntityType Name="SKUs">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NAME" Type="nvarchar(max)" />
-          <Property Name="SKU_TYPE_LINK_ID" Type="int" />
-        </EntityType>
-        <EntityType Name="SKU_TYPE">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NAME" Type="nvarchar(max)" />
+          <Property Name="PRICE" Type="int" />
         </EntityType>
         <Association Name="FK_DEMAND_LOCATION_DEMAND">
-          <End Role="LOCATION" Type="Self.LOCATION" Multiplicity="0..1" />
-          <End Role="DEMAND" Type="Self.DEMAND" Multiplicity="*" />
+          <End Role="LOCATIONs" Type="Self.LOCATIONs" Multiplicity="0..1" />
+          <End Role="DEMANDs" Type="Self.DEMANDs" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="LOCATION">
+            <Principal Role="LOCATIONs">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="DEMAND">
+            <Dependent Role="DEMANDs">
               <PropertyRef Name="LOCATION_LINK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DEMAND_ORDER_DETAILS_DEMAND">
           <End Role="ORDER_DETAILS" Type="Self.ORDER_DETAILS" Multiplicity="0..1" />
-          <End Role="DEMAND" Type="Self.DEMAND" Multiplicity="*" />
+          <End Role="DEMANDs" Type="Self.DEMANDs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ORDER_DETAILS">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="DEMAND">
+            <Dependent Role="DEMANDs">
               <PropertyRef Name="ORDER_DETAILS_LINK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DEMAND_SKU_DEMAND">
-          <End Role="SKU" Type="Self.SKU" Multiplicity="0..1" />
-          <End Role="DEMAND" Type="Self.DEMAND" Multiplicity="*" />
+          <End Role="SKUs" Type="Self.SKUs" Multiplicity="0..1" />
+          <End Role="DEMANDs" Type="Self.DEMANDs" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SKU">
+            <Principal Role="SKUs">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="DEMAND">
+            <Dependent Role="DEMANDs">
               <PropertyRef Name="SKU_LINK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SKU_SKU_TYPE_SKU">
-          <End Role="SKU_TYPE" Type="Self.SKU_TYPE" Multiplicity="0..1" />
-          <End Role="SKU" Type="Self.SKU" Multiplicity="*" />
+        <Association Name="FK_INVENTORY_LOCATION_INVENTORY">
+          <End Role="LOCATIONs" Type="Self.LOCATIONs" Multiplicity="0..1" />
+          <End Role="INVENTORies" Type="Self.INVENTORies" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SKU_TYPE">
+            <Principal Role="LOCATIONs">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="SKU">
-              <PropertyRef Name="SKU_TYPE_LINK_ID" />
+            <Dependent Role="INVENTORies">
+              <PropertyRef Name="LOCATION_LINK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INVENTORY_SKU_INVENTORY">
+          <End Role="SKUs" Type="Self.SKUs" Multiplicity="0..1" />
+          <End Role="INVENTORies" Type="Self.INVENTORies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SKUs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INVENTORies">
+              <PropertyRef Name="SKU_LINK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="KONICA_MINOLTA_DBModelStoreContainer">
-          <EntitySet Name="DEMAND" EntityType="Self.DEMAND" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LOCATION" EntityType="Self.LOCATION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DEMANDs" EntityType="Self.DEMANDs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INVENTORies" EntityType="Self.INVENTORies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LAST_DEMAND_DATA" EntityType="Self.LAST_DEMAND_DATA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOCATIONs" EntityType="Self.LOCATIONs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ORDER_DETAILS" EntityType="Self.ORDER_DETAILS" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SKU" EntityType="Self.SKU" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SKU_TYPE" EntityType="Self.SKU_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SKUs" EntityType="Self.SKUs" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_DEMAND_LOCATION_DEMAND" Association="Self.FK_DEMAND_LOCATION_DEMAND">
-            <End Role="LOCATION" EntitySet="LOCATION" />
-            <End Role="DEMAND" EntitySet="DEMAND" />
+            <End Role="LOCATIONs" EntitySet="LOCATIONs" />
+            <End Role="DEMANDs" EntitySet="DEMANDs" />
           </AssociationSet>
           <AssociationSet Name="FK_DEMAND_ORDER_DETAILS_DEMAND" Association="Self.FK_DEMAND_ORDER_DETAILS_DEMAND">
             <End Role="ORDER_DETAILS" EntitySet="ORDER_DETAILS" />
-            <End Role="DEMAND" EntitySet="DEMAND" />
+            <End Role="DEMANDs" EntitySet="DEMANDs" />
           </AssociationSet>
           <AssociationSet Name="FK_DEMAND_SKU_DEMAND" Association="Self.FK_DEMAND_SKU_DEMAND">
-            <End Role="SKU" EntitySet="SKU" />
-            <End Role="DEMAND" EntitySet="DEMAND" />
+            <End Role="SKUs" EntitySet="SKUs" />
+            <End Role="DEMANDs" EntitySet="DEMANDs" />
           </AssociationSet>
-          <AssociationSet Name="FK_SKU_SKU_TYPE_SKU" Association="Self.FK_SKU_SKU_TYPE_SKU">
-            <End Role="SKU_TYPE" EntitySet="SKU_TYPE" />
-            <End Role="SKU" EntitySet="SKU" />
+          <AssociationSet Name="FK_INVENTORY_LOCATION_INVENTORY" Association="Self.FK_INVENTORY_LOCATION_INVENTORY">
+            <End Role="LOCATIONs" EntitySet="LOCATIONs" />
+            <End Role="INVENTORies" EntitySet="INVENTORies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INVENTORY_SKU_INVENTORY" Association="Self.FK_INVENTORY_SKU_INVENTORY">
+            <End Role="SKUs" EntitySet="SKUs" />
+            <End Role="INVENTORies" EntitySet="INVENTORies" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -128,7 +157,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DATE_TIME" Type="DateTime" Precision="0" />
+          <Property Name="DATE_TIME" Type="DateTime" Precision="3" />
           <Property Name="SKU_LINK_ID" Type="Int32" />
           <Property Name="LOCATION_LINK_ID" Type="Int32" />
           <Property Name="ORDER_DETAILS_LINK_ID" Type="Int32" />
@@ -145,6 +174,7 @@
           <Property Name="BRANCH_NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="LOCATION_CODE" Type="Int32" />
           <NavigationProperty Name="DEMANDs" Relationship="Self.FK_DEMAND_LOCATION_DEMAND" FromRole="LOCATION" ToRole="DEMAND" />
+          <NavigationProperty Name="INVENTORies" Relationship="KONICA_MINOLTA_DBModel.FK_INVENTORY_LOCATION_INVENTORY" FromRole="LOCATION" ToRole="INVENTORY" />
         </EntityType>
         <EntityType Name="ORDER_DETAILS">
           <Key>
@@ -163,16 +193,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DEMANDs" Relationship="Self.FK_DEMAND_SKU_DEMAND" FromRole="SKU" ToRole="DEMAND" />
-          <Property Name="SKU_TYPE_LINK_ID" Type="Int32" />
-          <NavigationProperty Name="SKU_TYPE" Relationship="KONICA_MINOLTA_DBModel.FK_SKU_SKU_TYPE_SKU" FromRole="SKU" ToRole="SKU_TYPE" />
-        </EntityType>
-        <EntityType Name="SKU_TYPE">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SKUs" Relationship="KONICA_MINOLTA_DBModel.FK_SKU_SKU_TYPE_SKU" FromRole="SKU_TYPE" ToRole="SKU" />
+          <Property Name="PRICE" Type="Int32" />
+          <NavigationProperty Name="INVENTORies" Relationship="KONICA_MINOLTA_DBModel.FK_INVENTORY_SKU_INVENTORY" FromRole="SKU" ToRole="INVENTORY" />
         </EntityType>
         <Association Name="FK_DEMAND_LOCATION_DEMAND">
           <End Role="LOCATION" Type="Self.LOCATION" Multiplicity="0..1" />
@@ -215,7 +237,6 @@
           <EntitySet Name="LOCATIONs" EntityType="Self.LOCATION" />
           <EntitySet Name="ORDER_DETAILS" EntityType="Self.ORDER_DETAILS" />
           <EntitySet Name="SKUs" EntityType="Self.SKU" />
-          <EntitySet Name="SKU_TYPE" EntityType="Self.SKU_TYPE" />
           <AssociationSet Name="FK_DEMAND_LOCATION_DEMAND" Association="Self.FK_DEMAND_LOCATION_DEMAND">
             <End Role="LOCATION" EntitySet="LOCATIONs" />
             <End Role="DEMAND" EntitySet="DEMANDs" />
@@ -228,80 +249,131 @@
             <End Role="SKU" EntitySet="SKUs" />
             <End Role="DEMAND" EntitySet="DEMANDs" />
           </AssociationSet>
-          <AssociationSet Name="FK_SKU_SKU_TYPE_SKU" Association="KONICA_MINOLTA_DBModel.FK_SKU_SKU_TYPE_SKU">
-            <End Role="SKU_TYPE" EntitySet="SKU_TYPE" />
-            <End Role="SKU" EntitySet="SKUs" />
+          <EntitySet Name="INVENTORies" EntityType="KONICA_MINOLTA_DBModel.INVENTORY" />
+          <AssociationSet Name="FK_INVENTORY_LOCATION_INVENTORY" Association="KONICA_MINOLTA_DBModel.FK_INVENTORY_LOCATION_INVENTORY">
+            <End Role="LOCATION" EntitySet="LOCATIONs" />
+            <End Role="INVENTORY" EntitySet="INVENTORies" />
           </AssociationSet>
+          <AssociationSet Name="FK_INVENTORY_SKU_INVENTORY" Association="KONICA_MINOLTA_DBModel.FK_INVENTORY_SKU_INVENTORY">
+            <End Role="SKU" EntitySet="SKUs" />
+            <End Role="INVENTORY" EntitySet="INVENTORies" />
+          </AssociationSet>
+          <EntitySet Name="LAST_DEMAND_DATA" EntityType="KONICA_MINOLTA_DBModel.LAST_DEMAND_DATA" />
         </EntityContainer>
-        <Association Name="FK_SKU_SKU_TYPE_SKU">
-          <End Type="KONICA_MINOLTA_DBModel.SKU_TYPE" Role="SKU_TYPE" Multiplicity="0..1" />
-          <End Type="KONICA_MINOLTA_DBModel.SKU" Role="SKU" Multiplicity="*" />
+        <EntityType Name="INVENTORY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LOCATION_LINK_ID" Type="Int32" />
+          <Property Name="SKU_LINK_ID" Type="Int32" />
+          <Property Name="QTY" Type="Int32" />
+          <NavigationProperty Name="LOCATION" Relationship="KONICA_MINOLTA_DBModel.FK_INVENTORY_LOCATION_INVENTORY" FromRole="INVENTORY" ToRole="LOCATION" />
+          <NavigationProperty Name="SKU" Relationship="KONICA_MINOLTA_DBModel.FK_INVENTORY_SKU_INVENTORY" FromRole="INVENTORY" ToRole="SKU" />
+        </EntityType>
+        <Association Name="FK_INVENTORY_LOCATION_INVENTORY">
+          <End Type="KONICA_MINOLTA_DBModel.LOCATION" Role="LOCATION" Multiplicity="0..1" />
+          <End Type="KONICA_MINOLTA_DBModel.INVENTORY" Role="INVENTORY" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SKU_TYPE">
+            <Principal Role="LOCATION">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="SKU">
-              <PropertyRef Name="SKU_TYPE_LINK_ID" />
+            <Dependent Role="INVENTORY">
+              <PropertyRef Name="LOCATION_LINK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_INVENTORY_SKU_INVENTORY">
+          <End Type="KONICA_MINOLTA_DBModel.SKU" Role="SKU" Multiplicity="0..1" />
+          <End Type="KONICA_MINOLTA_DBModel.INVENTORY" Role="INVENTORY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SKU">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INVENTORY">
+              <PropertyRef Name="SKU_LINK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LAST_DEMAND_DATA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DATE_TIME" Type="DateTime" Precision="3" />
+          <Property Name="SKU_LINK_ID" Type="Int32" />
+          <Property Name="LOCATION_LINK_ID" Type="Int32" />
+          <Property Name="ORDER_DETAILS_LINK_ID" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="KONICA_MINOLTA_DBModelStoreContainer" CdmEntityContainer="KONICA_MINOLTA_DBEntities">
-          <EntitySetMapping Name="DEMANDs">
-            <EntityTypeMapping TypeName="KONICA_MINOLTA_DBModel.DEMAND">
-              <MappingFragment StoreEntitySet="DEMAND">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="DATE_TIME" ColumnName="DATE_TIME" />
-                <ScalarProperty Name="SKU_LINK_ID" ColumnName="SKU_LINK_ID" />
-                <ScalarProperty Name="LOCATION_LINK_ID" ColumnName="LOCATION_LINK_ID" />
-                <ScalarProperty Name="ORDER_DETAILS_LINK_ID" ColumnName="ORDER_DETAILS_LINK_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LOCATIONs">
-            <EntityTypeMapping TypeName="KONICA_MINOLTA_DBModel.LOCATION">
-              <MappingFragment StoreEntitySet="LOCATION">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="COUNTRY_NAME" ColumnName="COUNTRY_NAME" />
-                <ScalarProperty Name="BRANCH_NAME" ColumnName="BRANCH_NAME" />
-                <ScalarProperty Name="LOCATION_CODE" ColumnName="LOCATION_CODE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ORDER_DETAILS">
-            <EntityTypeMapping TypeName="KONICA_MINOLTA_DBModel.ORDER_DETAILS">
-              <MappingFragment StoreEntitySet="ORDER_DETAILS">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
-                <ScalarProperty Name="ORDER_QTY" ColumnName="ORDER_QTY" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SKUs">
-            <EntityTypeMapping TypeName="KONICA_MINOLTA_DBModel.SKU">
-              <MappingFragment StoreEntitySet="SKU">
-                <ScalarProperty Name="SKU_TYPE_LINK_ID" ColumnName="SKU_TYPE_LINK_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SKU_TYPE">
-            <EntityTypeMapping TypeName="KONICA_MINOLTA_DBModel.SKU_TYPE">
-              <MappingFragment StoreEntitySet="SKU_TYPE">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="KONICA_MINOLTA_DBModelStoreContainer" CdmEntityContainer="KONICA_MINOLTA_DBEntities">
+    <EntitySetMapping Name="DEMANDs">
+      <EntityTypeMapping TypeName="IsTypeOf(KONICA_MINOLTA_DBModel.DEMAND)">
+        <MappingFragment StoreEntitySet="DEMANDs">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="DATE_TIME" ColumnName="DATE_TIME" />
+          <ScalarProperty Name="SKU_LINK_ID" ColumnName="SKU_LINK_ID" />
+          <ScalarProperty Name="LOCATION_LINK_ID" ColumnName="LOCATION_LINK_ID" />
+          <ScalarProperty Name="ORDER_DETAILS_LINK_ID" ColumnName="ORDER_DETAILS_LINK_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LOCATIONs">
+      <EntityTypeMapping TypeName="IsTypeOf(KONICA_MINOLTA_DBModel.LOCATION)">
+        <MappingFragment StoreEntitySet="LOCATIONs">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="COUNTRY_NAME" ColumnName="COUNTRY_NAME" />
+          <ScalarProperty Name="BRANCH_NAME" ColumnName="BRANCH_NAME" />
+          <ScalarProperty Name="LOCATION_CODE" ColumnName="LOCATION_CODE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ORDER_DETAILS">
+      <EntityTypeMapping TypeName="IsTypeOf(KONICA_MINOLTA_DBModel.ORDER_DETAILS)">
+        <MappingFragment StoreEntitySet="ORDER_DETAILS">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+          <ScalarProperty Name="ORDER_QTY" ColumnName="ORDER_QTY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SKUs">
+      <EntityTypeMapping TypeName="IsTypeOf(KONICA_MINOLTA_DBModel.SKU)">
+        <MappingFragment StoreEntitySet="SKUs">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="PRICE" ColumnName="PRICE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INVENTORies">
+      <EntityTypeMapping TypeName="IsTypeOf(KONICA_MINOLTA_DBModel.INVENTORY)">
+        <MappingFragment StoreEntitySet="INVENTORies">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LOCATION_LINK_ID" ColumnName="LOCATION_LINK_ID" />
+          <ScalarProperty Name="SKU_LINK_ID" ColumnName="SKU_LINK_ID" />
+          <ScalarProperty Name="QTY" ColumnName="QTY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LAST_DEMAND_DATA">
+      <EntityTypeMapping TypeName="IsTypeOf(KONICA_MINOLTA_DBModel.LAST_DEMAND_DATA)">
+        <MappingFragment StoreEntitySet="LAST_DEMAND_DATA">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="DATE_TIME" ColumnName="DATE_TIME" />
+          <ScalarProperty Name="SKU_LINK_ID" ColumnName="SKU_LINK_ID" />
+          <ScalarProperty Name="LOCATION_LINK_ID" ColumnName="LOCATION_LINK_ID" />
+          <ScalarProperty Name="ORDER_DETAILS_LINK_ID" ColumnName="ORDER_DETAILS_LINK_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -315,7 +387,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

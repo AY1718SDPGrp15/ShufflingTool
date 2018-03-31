@@ -26,6 +26,7 @@ Partial Public Class KONICA_MINOLTA_DBEntities
     Public Overridable Property LOCATIONs() As DbSet(Of LOCATION)
     Public Overridable Property ORDER_DETAILS() As DbSet(Of ORDER_DETAILS)
     Public Overridable Property SKUs() As DbSet(Of SKU)
-    Public Overridable Property SKU_TYPE() As DbSet(Of SKU_TYPE)
+    Public Overridable Property INVENTORies() As DbSet(Of INVENTORY)
+    Public Overridable Property LAST_DEMAND_DATA() As DbSet(Of LAST_DEMAND_DATA)
 
 End Class

@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="ReshufflingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:smtx="clr-namespace:ShowMeTheXAML;assembly=ShowMeTheXAML"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ShufflingTool"
+             mc:Ignorable="d" 
+             Background="{DynamicResource MaterialDesignPaper}"
+             d:DesignHeight="600" d:DesignWidth="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" VerticalAlignment="Top" Margin="10,20,10,0">
+            <Grid.Resources >
+                <Style TargetType="Border" >
+                    <Setter Property="Padding" Value="5,5,5,5" />
+                    <Setter Property="Margin" Value="5,5,5,5"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--<Button Name="openRawDataButton" Content="Update SQL Database" HorizontalAlignment="Left" />-->
+            <TextBlock Grid.Row="0" HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" Text="Shuffling View" VerticalAlignment="Top" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
+            <Border  Grid.Row="1">
+                <TextBox materialDesign:HintAssist.Hint="Shuffle Period" 
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" Name="shuffleSkuPeriod" HorizontalAlignment="Left"  Width="400" />
+            </Border>
+            <Border  Grid.Row="2">
+                <TextBox materialDesign:HintAssist.Hint="SKU To Shuffle" Name="shuffleSkuNumber"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"  HorizontalAlignment="Left"  Width="400" />
+            </Border>
+            <Border Grid.Row="3">
+                <Button  Name="updateInventory" Click="updateInventory_Click" Content="Update Inventory" Width="150"  HorizontalAlignment="Left" />
+            </Border>
+            <Border Grid.Row="4">
+                <Button  Name="reshuffleButton" Content="Reshuffle" Width="150" Click="reshuffleButton_Click" HorizontalAlignment="Left" />
+            </Border>
+        </Grid>
+        <DataGrid Grid.Row="1" VerticalAlignment="Stretch" Name="TestDataGrid" VerticalScrollBarVisibility="Visible"  Margin="0 8 0 0" CanUserSortColumns="True" CanUserAddRows="False" >
+
+        </DataGrid>
+        <!--<Grid HorizontalAlignment="Center" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" SharedSizeGroup="Months"/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Months" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
+                <TextBlock Grid.Column="1" Text="Inventory Value Savings" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
+                <Button Grid.Row="1" Content="January" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="2" Content="February" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="3" Content="March" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="4" Content="April" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="5" Content="May" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="6" Content="June" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="7" Content="July" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="8" Content="August" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="9" Content="September" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="10" Content="October" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="11" Content="November" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                <Button Grid.Row="12" Content="December" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+            </Grid>-->
+    </Grid>
+</UserControl>

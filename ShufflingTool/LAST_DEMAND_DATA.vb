@@ -10,10 +10,11 @@
 Imports System
 Imports System.Collections.Generic
 
-Partial Public Class SKU_TYPE
+Partial Public Class LAST_DEMAND_DATA
     Public Property ID As Integer
-    Public Property NAME As String
-
-    Public Overridable Property SKUs As ICollection(Of SKU) = New HashSet(Of SKU)
+    Public Property DATE_TIME As Nullable(Of Date)
+    Public Property SKU_LINK_ID As Nullable(Of Integer)
+    Public Property LOCATION_LINK_ID As Nullable(Of Integer)
+    Public Property ORDER_DETAILS_LINK_ID As Nullable(Of Integer)
 
 End Class

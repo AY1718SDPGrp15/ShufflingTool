@@ -9,4 +9,10 @@
         Return KMEntity
     End Function
 
+    Public Sub ClearEntity()
+        If KMEntity IsNot Nothing Then
+            KMEntity.Dispose()
+            KMEntity = Nothing
+        End If
+    End Sub
 End Module

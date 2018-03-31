@@ -14,16 +14,22 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="60" />
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="150" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <local:MainView x:Name="mainView" Grid.Row="0" />
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignFlatButton}" Name="updateSqlDbButton" Click="updateSqlDbButton_Click" Content="Update SQL Database"/>
-            <Button Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignFlatButton}" Name="reshuffleButton" Click="reshuffleButton_Click" Content="Reshuffling Tool" />
+            <TextBox Grid.Column="0" Text="Console Output:" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" VerticalContentAlignment="Top" Background="White" Foreground="Black" Name="outputTextBox" IsReadOnly="True"/>
+            <Button Grid.Column="1" Name="mainMenuButton" Click="mainMenuButton_Click" Height="150" Style="{StaticResource MaterialDesignRaisedButton}" Content="Main Menu"/>
         </Grid>
-        <Button Grid.Row="1" Style="{StaticResource MaterialDesignFlatButton}" Content="Main Menu" />
+
+        <Grid  Name="progressBar" Visibility="Collapsed" Grid.Row="1">
+            <ProgressBar Grid.Row="1" Height="30"  IsIndeterminate="True" />
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">LOADING</TextBlock>
+        </Grid>
     </Grid>
 </metro:MetroWindow>

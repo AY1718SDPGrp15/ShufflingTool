@@ -1,7 +1,45 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" UseMySettingsClassName="true">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="PURCHASING_DOCUMENT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Purchasing Document</Value>
+    </Setting>
+    <Setting Name="DESCRIPTION" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Short Text</Value>
+    </Setting>
+    <Setting Name="MATERIAL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Material</Value>
+    </Setting>
+    <Setting Name="DOCUMENT_DATE" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Document Date</Value>
+    </Setting>
+    <Setting Name="LOCATION" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Storage Location</Value>
+    </Setting>
+    <Setting Name="QTY" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Order Quantity</Value>
+    </Setting>
+    <Setting Name="BRANCH" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Plant</Value>
+    </Setting>
+    <Setting Name="INVENTORY_QTY" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Qty</Value>
+    </Setting>
+    <Setting Name="R_ORDER_QTY" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Order.Quantity</Value>
+    </Setting>
+    <Setting Name="R_STORAGE_LOCATION" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Storage.Location</Value>
+    </Setting>
+    <Setting Name="R_MATERIAL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Material</Value>
+    </Setting>
+    <Setting Name="R_DOCUMENT_DATE" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Document.Date</Value>
+    </Setting>
+    <Setting Name="DATE_FORMAT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">dd/MM/yyyy</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

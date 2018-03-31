@@ -10,13 +10,13 @@
 Imports System
 Imports System.Collections.Generic
 
-Partial Public Class LOCATION
+Partial Public Class INVENTORY
     Public Property ID As Integer
-    Public Property COUNTRY_NAME As String
-    Public Property BRANCH_NAME As String
-    Public Property LOCATION_CODE As Nullable(Of Integer)
+    Public Property LOCATION_LINK_ID As Nullable(Of Integer)
+    Public Property SKU_LINK_ID As Nullable(Of Integer)
+    Public Property QTY As Nullable(Of Integer)
 
-    Public Overridable Property DEMANDs As ICollection(Of DEMAND) = New HashSet(Of DEMAND)
-    Public Overridable Property INVENTORies As ICollection(Of INVENTORY) = New HashSet(Of INVENTORY)
+    Public Overridable Property LOCATION As LOCATION
+    Public Overridable Property SKU As SKU
 
 End Class
