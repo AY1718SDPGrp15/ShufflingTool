@@ -212,9 +212,9 @@ Public Class ReshufflingView
         If IsNumeric(shuffleSkuPeriod.Text) = False Then
             Return False
         End If
-        If IsNumeric(shuffleSkuNumber.Text) = False Then
-            Return False
-        End If
+        'If IsNumeric(shuffleSkuNumber.Text) = False Then
+        '    Return False
+        'End If
         Return True
     End Function
 

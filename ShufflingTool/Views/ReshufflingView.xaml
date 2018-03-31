@@ -34,7 +34,7 @@
                 <TextBox materialDesign:HintAssist.Hint="Shuffle Period" 
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" Name="shuffleSkuPeriod" HorizontalAlignment="Left"  Width="400" />
             </Border>
-            <Border  Grid.Row="2">
+            <Border Grid.Row="2" Visibility="Collapsed">
                 <TextBox materialDesign:HintAssist.Hint="SKU To Shuffle" Name="shuffleSkuNumber"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"  HorizontalAlignment="Left"  Width="400" />
             </Border>
