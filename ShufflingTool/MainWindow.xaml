@@ -10,6 +10,26 @@
         Title="Shuffling Tool"  TitleCaps="False" TitleCharacterCasing="Normal" 
         ShowTitleBar="True" BorderBrush="{DynamicResource PrimaryHueDarkBrush}">
     <Grid>
-        <local:MainView />
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="150" />
+        </Grid.RowDefinitions>
+        <local:MainView x:Name="mainView" Grid.Row="0" />
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="Console Output:" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" VerticalContentAlignment="Top" Background="White" Foreground="Black" Name="outputTextBox" IsReadOnly="True"/>
+            <Button Grid.Column="1" Name="mainMenuButton" Click="mainMenuButton_Click" Height="150" Style="{StaticResource MaterialDesignRaisedButton}" Content="Main Menu"/>
+        </Grid>
+
+        <Grid  Name="progressBar" Visibility="Collapsed" Grid.Row="1">
+            <ProgressBar Grid.Row="1" Height="30"  IsIndeterminate="True" />
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">LOADING</TextBlock>
+        </Grid>
     </Grid>
 </metro:MetroWindow>

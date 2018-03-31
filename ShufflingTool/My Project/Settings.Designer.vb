@@ -12,61 +12,215 @@ Option Strict On
 Option Explicit On
 
 
-Namespace My
 
-    <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(), _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0"), _
-     Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)> _
-    Partial Friend NotInheritable Class MySettings
-        Inherits Global.System.Configuration.ApplicationSettingsBase
-
-        Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings), MySettings)
-
+<Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
+ Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0"),  _
+ Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
+Partial Friend NotInheritable Class MySettings
+    Inherits Global.System.Configuration.ApplicationSettingsBase
+    
+    Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings()),MySettings)
+    
 #Region "My.Settings Auto-Save Functionality"
 #If _MyType = "WindowsForms" Then
-        Private Shared addedHandler As Boolean
+    Private Shared addedHandler As Boolean
 
-        Private Shared addedHandlerLockObject As New Object
+    Private Shared addedHandlerLockObject As New Object
 
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)> _
-        Private Shared Sub AutoSaveSettings(ByVal sender As Global.System.Object, ByVal e As Global.System.EventArgs)
-            If My.Application.SaveMySettingsOnExit Then
-                My.Settings.Save()
-            End If
-        End Sub
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)> _
+    Private Shared Sub AutoSaveSettings(sender As Global.System.Object, e As Global.System.EventArgs)
+        If My.Application.SaveMySettingsOnExit Then
+            My.Settings.Save()
+        End If
+    End Sub
 #End If
 #End Region
-
-        Public Shared ReadOnly Property [Default]() As MySettings
-            Get
-
+    
+    Public Shared ReadOnly Property [Default]() As MySettings
+        Get
+            
 #If _MyType = "WindowsForms" Then
-                   If Not addedHandler Then
-                        SyncLock addedHandlerLockObject
-                            If Not addedHandler Then
-                                AddHandler My.Application.Shutdown, AddressOf AutoSaveSettings
-                                addedHandler = True
-                            End If
-                        End SyncLock
-                    End If
+               If Not addedHandler Then
+                    SyncLock addedHandlerLockObject
+                        If Not addedHandler Then
+                            AddHandler My.Application.Shutdown, AddressOf AutoSaveSettings
+                            addedHandler = True
+                        End If
+                    End SyncLock
+                End If
 #End If
-                Return defaultInstance
-            End Get
-        End Property
-    End Class
-End Namespace
+            Return defaultInstance
+        End Get
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Purchasing Document")>  _
+    Public Property PURCHASING_DOCUMENT() As String
+        Get
+            Return CType(Me("PURCHASING_DOCUMENT"),String)
+        End Get
+        Set
+            Me("PURCHASING_DOCUMENT") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Short Text")>  _
+    Public Property DESCRIPTION() As String
+        Get
+            Return CType(Me("DESCRIPTION"),String)
+        End Get
+        Set
+            Me("DESCRIPTION") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Material")>  _
+    Public Property MATERIAL() As String
+        Get
+            Return CType(Me("MATERIAL"),String)
+        End Get
+        Set
+            Me("MATERIAL") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Document Date")>  _
+    Public Property DOCUMENT_DATE() As String
+        Get
+            Return CType(Me("DOCUMENT_DATE"),String)
+        End Get
+        Set
+            Me("DOCUMENT_DATE") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Storage Location")>  _
+    Public Property LOCATION() As String
+        Get
+            Return CType(Me("LOCATION"),String)
+        End Get
+        Set
+            Me("LOCATION") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Order Quantity")>  _
+    Public Property QTY() As String
+        Get
+            Return CType(Me("QTY"),String)
+        End Get
+        Set
+            Me("QTY") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Plant")>  _
+    Public Property BRANCH() As String
+        Get
+            Return CType(Me("BRANCH"),String)
+        End Get
+        Set
+            Me("BRANCH") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Qty")>  _
+    Public Property INVENTORY_QTY() As String
+        Get
+            Return CType(Me("INVENTORY_QTY"),String)
+        End Get
+        Set
+            Me("INVENTORY_QTY") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Order.Quantity")>  _
+    Public Property R_ORDER_QTY() As String
+        Get
+            Return CType(Me("R_ORDER_QTY"),String)
+        End Get
+        Set
+            Me("R_ORDER_QTY") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Storage.Location")>  _
+    Public Property R_STORAGE_LOCATION() As String
+        Get
+            Return CType(Me("R_STORAGE_LOCATION"),String)
+        End Get
+        Set
+            Me("R_STORAGE_LOCATION") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Material")>  _
+    Public Property R_MATERIAL() As String
+        Get
+            Return CType(Me("R_MATERIAL"),String)
+        End Get
+        Set
+            Me("R_MATERIAL") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Document.Date")>  _
+    Public Property R_DOCUMENT_DATE() As String
+        Get
+            Return CType(Me("R_DOCUMENT_DATE"),String)
+        End Get
+        Set
+            Me("R_DOCUMENT_DATE") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("dd/MM/yyyy")>  _
+    Public Property DATE_FORMAT() As String
+        Get
+            Return CType(Me("DATE_FORMAT"),String)
+        End Get
+        Set
+            Me("DATE_FORMAT") = value
+        End Set
+    End Property
+End Class
 
 Namespace My
-
-    <Global.Microsoft.VisualBasic.HideModuleNameAttribute(), _
-     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
-     Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute()> _
+    
+    <Global.Microsoft.VisualBasic.HideModuleNameAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute()>  _
     Friend Module MySettingsProperty
-
-        <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")> _
-        Friend ReadOnly Property Settings() As Global.ShufflingTool.My.MySettings
+        
+        <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
+        Friend ReadOnly Property Settings() As Global.ShufflingTool.MySettings
             Get
-                Return Global.ShufflingTool.My.MySettings.Default
+                Return Global.ShufflingTool.MySettings.Default
             End Get
         End Property
     End Module

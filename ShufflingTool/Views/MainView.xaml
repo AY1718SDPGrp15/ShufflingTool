@@ -5,10 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ShufflingTool"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="900">
-    <Grid VerticalAlignment="Top">
-            <Button Content="Open Raw Data File" HorizontalAlignment="Left" />
-            <TextBlock HorizontalAlignment="Center" Height="28" TextWrapping="Wrap" Text="Welcome to the reshuffling tool" VerticalAlignment="Top" Style="{DynamicResource MaterialDesignTitleTextBlock}" />
-            <Button Content="Reshuffle" HorizontalAlignment="Right" />
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignFlatButton}" Name="updateSqlDbButton" Click="updateSqlDbButton_Click">
+                <Image Source="pack://application:,,,/ShufflingTool;component/Resources/NewDBButton.png" />
+            </Button>
+            <Button Grid.Column="1" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignFlatButton}" Name="reshuffleButton" Click="reshuffleButton_Click" >
+                <Image Source="pack://application:,,,/ShufflingTool;component/Resources/NewRSButton.png"/>
+            </Button>
         </Grid>
+    </Grid>
 </UserControl>
