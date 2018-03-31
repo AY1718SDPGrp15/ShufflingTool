@@ -4,3 +4,4 @@
 *.ide
 *.ide-shm
 *.ide-wal
+*.cache

@@ -1,4 +1,4 @@
-packages = c("dplyr","forecast","tsintermittent", "prophet")  #name of required packages used in this rscript
+packages = c("dplyr","forecast","tsintermittent", "prophet", "zoo")  #name of required packages used in this rscript
 
 package.check <- lapply(packages, FUN = function(x) {   #function to to check if each package is on the local machine, if a package is installed, it will be loaded, else install and load.
   if(!require(x, character.only = TRUE)) {
