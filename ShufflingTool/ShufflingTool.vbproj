@@ -178,19 +178,12 @@
     <Compile Include="Views\MainView.xaml.vb">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-<<<<<<< HEAD
-    <Compile Include="Views\Module2.vb" />
-=======
     <Compile Include="Views\ReshufflingView.xaml.vb">
       <DependentUpon>ReshufflingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SQLUpdaterView.xaml.vb">
       <DependentUpon>SQLUpdaterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TestView.xaml.vb">
-      <DependentUpon>TestView.xaml</DependentUpon>
-    </Compile>
->>>>>>> Bilguun
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -207,8 +200,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-<<<<<<< HEAD
-=======
     <Page Include="Views\ReshufflingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -217,11 +208,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TestView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
->>>>>>> Bilguun
   </ItemGroup>
   <ItemGroup>
     <Import Include="System.Threading.Tasks" />
