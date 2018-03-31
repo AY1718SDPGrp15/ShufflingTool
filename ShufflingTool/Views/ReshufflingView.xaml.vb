@@ -70,21 +70,15 @@ Public Class ReshufflingView
                 dataTable.Rows.Add(row)
             Next
 
-            Dim location = Environment.CurrentDirectory + "\DataFromR.csv"
-            Using writer As StreamWriter = New StreamWriter(location)
-                Rfc4180Writer.WriteDataTable(dataTable, writer, True)
-            End Using
-            Process.Start(location)
+            'Dim location = Environment.CurrentDirectory + "\DataFromR.csv"
+            'Using writer As StreamWriter = New StreamWriter(location)
+            '    Rfc4180Writer.WriteDataTable(dataTable, writer, True)
+            'End Using
+            'Process.Start(location)
 
-            reshuffledDatatable = New DataTable
-            reshuffledDatatable.Columns.Add("SKU Name")
-            reshuffledDatatable.Columns.Add("Location")
-            reshuffledDatatable.Columns.Add("Received From Location")
-            reshuffledDatatable.Columns.Add("Send To Location")
-            reshuffledDatatable.Columns.Add("Quantity")
-            Dim dateColumn As DataColumn = reshuffledDatatable.Columns.Add("Date", GetType(Date))
+            SetupViewDatatable()
 
-            For i = 0 To shufflePeriod Step 1
+            For i = 0 To shufflePeriod - 1 Step 1
                 Dim dtCopy = dataTable.Copy
                 positiveShuffleLoc.Clear()
                 negativeShuffleLoc.Clear()
@@ -219,25 +213,36 @@ Public Class ReshufflingView
     End Function
 
     Private Sub ReshufflingView_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
-        reshuffleDataTable.Columns.Add("SKU", GetType(String))
-        reshuffleDataTable.Columns.Add("Location Code", GetType(String))
-        Dim outgoingColumn As DataColumn = reshuffleDataTable.Columns.Add("Is Outgoing", GetType(Boolean))
-        outgoingColumn.ReadOnly = True
-        Dim incomingColumn As DataColumn = reshuffleDataTable.Columns.Add("Is Incoming", GetType(Boolean))
-        incomingColumn.ReadOnly = True
-        reshuffleDataTable.Columns.Add("January")
-        reshuffleDataTable.Columns.Add("February")
-        reshuffleDataTable.Columns.Add("March")
-        reshuffleDataTable.Columns.Add("Confirm?", GetType(Boolean))
-        reshuffleDataTable.Rows.Add("AX0123", "1001", True, False, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        reshuffleDataTable.Rows.Add("AX0124", "1005", False, True, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        reshuffleDataTable.Rows.Add("AX0125", "2003", True, False, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        reshuffleDataTable.Rows.Add("AX0126", "1006", False, True, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        reshuffleDataTable.Rows.Add("AX0127", "2009", True, False, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        TestDataGrid.ItemsSource = reshuffleDataTable.DefaultView
+        'reshuffleDataTable.Columns.Add("SKU", GetType(String))
+        'reshuffleDataTable.Columns.Add("Location Code", GetType(String))
+        'Dim outgoingColumn As DataColumn = reshuffleDataTable.Columns.Add("Is Outgoing", GetType(Boolean))
+        'outgoingColumn.ReadOnly = True
+        'Dim incomingColumn As DataColumn = reshuffleDataTable.Columns.Add("Is Incoming", GetType(Boolean))
+        'incomingColumn.ReadOnly = True
+        'reshuffleDataTable.Columns.Add("January")
+        'reshuffleDataTable.Columns.Add("February")
+        'reshuffleDataTable.Columns.Add("March")
+        'reshuffleDataTable.Columns.Add("Confirm?", GetType(Boolean))
+        'reshuffleDataTable.Rows.Add("AX0123", "1001", True, False, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
+        'reshuffleDataTable.Rows.Add("AX0124", "1005", False, True, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
+        'reshuffleDataTable.Rows.Add("AX0125", "2003", True, False, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
+        'reshuffleDataTable.Rows.Add("AX0126", "1006", False, True, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
+        'reshuffleDataTable.Rows.Add("AX0127", "2009", True, False, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
+        'TestDataGrid.ItemsSource = reshuffleDataTable.DefaultView
+        SetupViewDatatable()
+        TestDataGrid.ItemsSource = reshuffledDatatable.DefaultView
 
+    End Sub
 
-
+    Private Sub SetupViewDatatable()
+        reshuffledDatatable = New DataTable
+        reshuffledDatatable.Columns.Add("SKU Name")
+        reshuffledDatatable.Columns.Add("Location")
+        reshuffledDatatable.Columns.Add("Received From Location")
+        reshuffledDatatable.Columns.Add("Send To Location")
+        reshuffledDatatable.Columns.Add("Quantity")
+        Dim dateColumn As DataColumn = reshuffledDatatable.Columns.Add("Date", GetType(Date))
+        dateColumn.ReadOnly = True
     End Sub
 
     Private Sub updateInventory_Click(sender As Object, e As RoutedEventArgs)
