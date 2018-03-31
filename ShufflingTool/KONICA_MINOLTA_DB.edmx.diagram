@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3d39560a8c1c4bf9a592adca4d87e57c" Name="Diagram1" ZoomLevel="72">
-        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.DEMAND" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.LOCATION" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.ORDER_DETAILS" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.SKU" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
-        <AssociationConnector Association="KONICA_MINOLTA_DBModel.FK_DEMAND_LOCATION_DEMAND" ManuallyRouted="false" />
-        <AssociationConnector Association="KONICA_MINOLTA_DBModel.FK_DEMAND_ORDER_DETAILS_DEMAND" ManuallyRouted="false" />
-        <AssociationConnector Association="KONICA_MINOLTA_DBModel.FK_DEMAND_SKU_DEMAND" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.INVENTORY" Width="1.5" PointX="5.25" PointY="5.125" />
+      <Diagram DiagramId="3d39560a8c1c4bf9a592adca4d87e57c" Name="Diagram1" ZoomLevel="68">
+        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.DEMAND" Width="1.5" PointX="6" PointY="3.875" />
+        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.INVENTORY" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.LAST_DEMAND_DATA" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.LOCATION" Width="1.5" PointX="0.75" PointY="4" />
+        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.ORDER_DETAILS" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.SKU" Width="1.5" PointX="3.75" PointY="7.5" />
+        <AssociationConnector Association="KONICA_MINOLTA_DBModel.FK_DEMAND_LOCATION_DEMAND" />
+        <AssociationConnector Association="KONICA_MINOLTA_DBModel.FK_DEMAND_ORDER_DETAILS_DEMAND" />
+        <AssociationConnector Association="KONICA_MINOLTA_DBModel.FK_DEMAND_SKU_DEMAND" />
         <AssociationConnector Association="KONICA_MINOLTA_DBModel.FK_INVENTORY_LOCATION_INVENTORY" />
         <AssociationConnector Association="KONICA_MINOLTA_DBModel.FK_INVENTORY_SKU_INVENTORY" />
-        <EntityTypeShape EntityType="KONICA_MINOLTA_DBModel.LAST_DEMAND_DATA" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

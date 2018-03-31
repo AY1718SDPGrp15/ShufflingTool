@@ -94,8 +94,8 @@ Public Class ReshufflingView
                         Continue For
                     End If
                     Dim newForecast As ShuffleArrayClass = New ShuffleArrayClass
-                    Dim forecastQty As Integer = row.Item("Point.Forecast")
-                    Dim nextForecastQty As Integer = dtCopy.Rows(index + 1).Item("Point.Forecast")
+                    Dim forecastQty As Integer = row.Item("PointForecast")
+                    Dim nextForecastQty As Integer = dtCopy.Rows(index + 1).Item("PointForecast")
                     Dim SKU As String = row.Item("SKU")
                     Dim storageLocation = row.Item("Location")
                     Dim inventory As INVENTORY = FindInventory(storageLocation, SKU)
