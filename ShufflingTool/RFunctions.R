@@ -70,18 +70,12 @@ getForecast <- function(timeseries, num) {
     test <- test[c("Point Forecast")]
     return (test)
     
-  } else if (sum(timeseries == 0) > (length(timeseries)-2)) {
+  } else {
     fcValues <- croston(timeseries, h = num)$mean
     test <- as.data.frame(fcValues)
     rownames(test) <- as.yearmon(time(fcValues))
     return (test)
-    
-  } else {
-    fcValues <- crost(timeseries, h = num)$frc.out
-    test <- as.data.frame(fcValues)
-    rownames(test) <- as.yearmon(time(fcValues))
-    return (test)
-  }
+  } 
 }
 
 testAccuracy <- function (tsObj, startDate) {

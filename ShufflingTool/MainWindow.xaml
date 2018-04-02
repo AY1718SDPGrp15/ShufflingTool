@@ -23,7 +23,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="Console Output:" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" VerticalContentAlignment="Top" Background="White" Foreground="Black" Name="outputTextBox" IsReadOnly="True"/>
+            <TextBox BorderBrush="DarkGray" BorderThickness="5" Grid.Column="0" Text="Console Output:" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" VerticalContentAlignment="Top" Background="White" Foreground="Black" Name="outputTextBox" IsReadOnly="True"/>
             <Button Grid.Column="1" Name="mainMenuButton" Click="mainMenuButton_Click" Height="150" Style="{StaticResource MaterialDesignRaisedButton}" Content="Main Menu"/>
         </Grid>
 
