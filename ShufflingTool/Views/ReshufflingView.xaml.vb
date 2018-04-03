@@ -70,11 +70,11 @@ Public Class ReshufflingView
                 dataTable.Rows.Add(row)
             Next
 
-            'Dim location = Environment.CurrentDirectory + "\DataFromR.csv"
-            'Using writer As StreamWriter = New StreamWriter(location)
-            '    Rfc4180Writer.WriteDataTable(dataTable, writer, True)
-            'End Using
-            'Process.Start(location)
+            Dim location = Environment.CurrentDirectory + "\DataFromR.csv"
+            Using writer As StreamWriter = New StreamWriter(location)
+                Rfc4180Writer.WriteDataTable(dataTable, writer, True)
+            End Using
+            Process.Start(location)
 
             SetupViewDatatable()
 
@@ -113,7 +113,7 @@ Public Class ReshufflingView
                         Dim recLocation As ShuffleArrayClass = positiveShuffleLoc.Where(Function(p) p.SKU_NAME = negativeLocation.SKU_NAME _
                                                                                            AndAlso p.LOCATION <> negativeLocation.LOCATION AndAlso p.CHANGE_QTY > 0).FirstOrDefault
                         If recLocation Is Nothing Then
-                            reshuffledDatatable.Rows.Add(negativeLocation.SKU_NAME, negativeLocation.LOCATION, "Order from DC", "Order From DC", negativeLocation.CHANGE_QTY, negativeLocation.FORECAST_DATE.ToString(My.Settings.DATE_FORMAT))
+                            reshuffledDatatable.Rows.Add(negativeLocation.SKU_NAME, negativeLocation.LOCATION, "Order from DC", "Order From DC", Math.Abs(negativeLocation.CHANGE_QTY), negativeLocation.FORECAST_DATE.ToString(My.Settings.DATE_FORMAT))
                             Exit While
                         End If
                         Dim shuffleQty As Integer = If(recLocation.CHANGE_QTY > Math.Abs(negativeLocation.CHANGE_QTY), Math.Abs(negativeLocation.CHANGE_QTY), recLocation.CHANGE_QTY)
