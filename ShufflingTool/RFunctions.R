@@ -8,7 +8,7 @@ package.check <- lapply(packages, FUN = function(x) {   #function to to check if
 })
 
 formatData <- function(data) {
-  data$Document.Date <- as.Date(as.character(data$Document.Date),"%m/%d/%Y") #this part check w bilguun default date format that is passed 
+  data$Document.Date <- as.Date(as.character(data$Document.Date),"%d/%m/%Y") #this part check w bilguun default date format that is passed 
   data$Order.Quantity<-as.numeric(as.character(data$Order.Quantity))
   return (data)
 }
