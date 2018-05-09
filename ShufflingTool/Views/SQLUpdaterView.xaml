@@ -21,7 +21,7 @@
 
                 </Grid>
             </materialDesign:DialogHost.DialogContent>
-            <Button HorizontalAlignment="Right" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
+            <Button HorizontalAlignment="Right" Visibility="Collapsed" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                 <materialDesign:PackIcon Height="40" Width="40" Kind="SettingsBox" />
             </Button>
         </materialDesign:DialogHost>

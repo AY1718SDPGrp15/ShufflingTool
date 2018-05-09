@@ -7,12 +7,15 @@ Public Class SQLUpdaterView
     Dim lastDocumentDate As Date = Nothing
     Dim fileUploadName
     Public KMEntity As KONICA_MINOLTA_DBEntities = GetDatabase()
+    Public locationName As String = ""
 
+    ' when Update button is triggered
     Private Sub openRawDataButton_Click(sender As Object, e As RoutedEventArgs)
         If checkFail() Then
             MsgBox("Pls check for empty fields")
             Return
         End If
+        locationName = countryComboBox.Text
         Dim fileUpLoadDialog As New Forms.OpenFileDialog()
         fileUpLoadDialog.Filter = "All Files (*.*)|*.*"
         fileUpLoadDialog.Multiselect = False
@@ -32,6 +35,7 @@ Public Class SQLUpdaterView
         End If
     End Sub
 
+    ' checks if location is entered
     Private Function checkFail() As Boolean
         If String.IsNullOrEmpty(countryComboBox.Text) = False Then
             Return False
@@ -39,6 +43,7 @@ Public Class SQLUpdaterView
         Return True
     End Function
 
+    'displays the datatable from excel
     Private Sub DisplayDataTableFromExcel()
         CallbackToggleProgressBar()
         displayDt = New DataTable
@@ -47,7 +52,8 @@ Public Class SQLUpdaterView
         Dim rows = uploadedDt.Rows
         Dim columns = uploadedDt.Columns
         Dim count = 0
-        Dim lastDemandData As LAST_DEMAND_DATA = KMEntity.LAST_DEMAND_DATA.FirstOrDefault
+        'gets the latest available demand data for the country
+        Dim lastDemandData As DEMAND = (From query In KMEntity.DEMANDs Where query.LOCATION.COUNTRY_NAME = locationName Order By query.ID Descending).FirstOrDefault
         If lastDemandData IsNot Nothing Then
             lastDocumentDate = lastDemandData.DATE_TIME
         End If
@@ -59,7 +65,7 @@ Public Class SQLUpdaterView
             displayDt.ImportRow(row)
         Next
         Application.Current.Dispatcher.BeginInvoke(Sub()
-                                                       lastUpdatedTimeText.Text = If(lastDemandData IsNot Nothing, lastDemandData.DATE_TIME.ToString, "No data")
+                                                       lastUpdatedTimeText.Text = If(lastDemandData IsNot Nothing, lastDemandData.DATE_TIME.ToString, "")
                                                        GridControl.ItemsSource = displayDt.AsDataView
                                                        GridControl.Visibility = Visibility.Visible
                                                        submitButton.Visibility = Visibility.Visible
@@ -67,6 +73,7 @@ Public Class SQLUpdaterView
         CallbackToggleProgressBar()
     End Sub
 
+    'populates the sql
     Private Sub PopulateSQLFromDatabase()
         CallbackToggleProgressBar()
         Try

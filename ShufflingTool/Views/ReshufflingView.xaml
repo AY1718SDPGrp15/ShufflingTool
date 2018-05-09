@@ -13,6 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="250"/>
             <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" VerticalAlignment="Stretch" Margin="10,20,10,0">
             <Grid.Resources >
@@ -46,8 +47,17 @@
             </Border>
         </Grid>
         <DataGrid Grid.Row="1" VerticalAlignment="Stretch" Name="TestDataGrid" VerticalScrollBarVisibility="Visible"  Margin="0 8 0 0" CanUserSortColumns="True" CanUserAddRows="False" >
-
         </DataGrid>
+        <Border Grid.Row="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button  Name="downloadReshuffleButton" Content="Download Reshuffled Results" HorizontalAlignment="Stretch" Click="downloadButton_Click" />
+                <Button Grid.Column="1" Name="downloadForecastButton" Content="Download Forecast Results" HorizontalAlignment="Stretch" Click="downloadForecastButton_Click" />
+            </Grid>
+        </Border>
         <!--<Grid HorizontalAlignment="Center" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150" SharedSizeGroup="Months"/>

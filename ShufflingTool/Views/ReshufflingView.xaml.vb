@@ -13,6 +13,8 @@ Public Class ReshufflingView
     Private negativeShuffleLoc As List(Of ShuffleArrayClass) = New List(Of ShuffleArrayClass)
     Private shuffledArray As List(Of ShufflingClass) = New List(Of ShufflingClass)
     Private reshuffledDatatable As New DataTable
+    Private foreCastExcelLocation As String
+    Private reshuffleExcelLocation As String
 
     Private Sub reshuffleButton_Click(sender As Object, e As RoutedEventArgs)
         If CheckForNumericInput() = False Then
@@ -70,11 +72,10 @@ Public Class ReshufflingView
                 dataTable.Rows.Add(row)
             Next
 
-            Dim location = Environment.CurrentDirectory + "\DataFromR.csv"
-            Using writer As StreamWriter = New StreamWriter(location)
+            foreCastExcelLocation = Environment.CurrentDirectory + "\DataFromR.csv"
+            Using writer As StreamWriter = New StreamWriter(foreCastExcelLocation)
                 Rfc4180Writer.WriteDataTable(dataTable, writer, True)
             End Using
-            Process.Start(location)
 
             SetupViewDatatable()
 
@@ -159,33 +160,6 @@ Public Class ReshufflingView
             CallbackToggleProgressBar()
             CallbackWriteToConsoleOutput("Shuffling Completed")
         End Try
-        'Try
-        '    Dim KMEntity As KONICA_MINOLTA_DBEntities = DatabaseService.GetDatabase
-        '    Dim demandList = KMEntity.DEMANDs.ToList
-        '    Dim sourceTable As DataTable = New DataTable()
-
-        '    sourceTable.Columns.AddRange(New DataColumn() {
-        '    New DataColumn("Order.Quantity", GetType(String)),
-        '    New DataColumn("Storage.Location", GetType(String)),
-        '    New DataColumn("Material", GetType(String)),
-        '    New DataColumn("Document.Date", GetType(String))
-        '})
-
-        '    For Each demand In demandList
-        '        Dim dateTime As Date = demand.DATE_TIME
-        '        Dim dateString = dateTime.ToString("dd/MM/yyyy")
-        '        sourceTable.Rows.Add(demand.ORDER_DETAILS.ORDER_QTY, demand.LOCATION.LOCATION_CODE, demand.SKU.NAME, dateString)
-        '    Next
-
-        '    Dim fileLocation = Environment.CurrentDirectory + "\SQLDataFrame.csv"
-        '    Using writer As StreamWriter = New StreamWriter(fileLocation)
-        '        Rfc4180Writer.WriteDataTable(sourceTable, writer, True)
-        '    End Using
-        '    MsgBox("Imported to CSV", MsgBoxStyle.Information)
-        '    RService.Test2(fileLocation)
-        'Catch ex As Exception
-
-        'End Try
     End Sub
 
     Private Function FindInventory(ByVal location As Integer, ByVal sku As String) As INVENTORY
@@ -206,32 +180,12 @@ Public Class ReshufflingView
         If IsNumeric(shuffleSkuPeriod.Text) = False Then
             Return False
         End If
-        'If IsNumeric(shuffleSkuNumber.Text) = False Then
-        '    Return False
-        'End If
         Return True
     End Function
 
     Private Sub ReshufflingView_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
-        'reshuffleDataTable.Columns.Add("SKU", GetType(String))
-        'reshuffleDataTable.Columns.Add("Location Code", GetType(String))
-        'Dim outgoingColumn As DataColumn = reshuffleDataTable.Columns.Add("Is Outgoing", GetType(Boolean))
-        'outgoingColumn.ReadOnly = True
-        'Dim incomingColumn As DataColumn = reshuffleDataTable.Columns.Add("Is Incoming", GetType(Boolean))
-        'incomingColumn.ReadOnly = True
-        'reshuffleDataTable.Columns.Add("January")
-        'reshuffleDataTable.Columns.Add("February")
-        'reshuffleDataTable.Columns.Add("March")
-        'reshuffleDataTable.Columns.Add("Confirm?", GetType(Boolean))
-        'reshuffleDataTable.Rows.Add("AX0123", "1001", True, False, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        'reshuffleDataTable.Rows.Add("AX0124", "1005", False, True, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        'reshuffleDataTable.Rows.Add("AX0125", "2003", True, False, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        'reshuffleDataTable.Rows.Add("AX0126", "1006", False, True, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        'reshuffleDataTable.Rows.Add("AX0127", "2009", True, False, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, Int(Rnd() * 100) + 1, True)
-        'TestDataGrid.ItemsSource = reshuffleDataTable.DefaultView
         SetupViewDatatable()
         TestDataGrid.ItemsSource = reshuffledDatatable.DefaultView
-
     End Sub
 
     Private Sub SetupViewDatatable()
@@ -295,32 +249,6 @@ Public Class ReshufflingView
                         KMEntity.SaveChanges()
                     Else
                     End If
-                    'While index < row.Table.Columns.Count
-                    '    Select Case row.Table.Columns(index).ColumnName
-                    '        Case My.Settings.MATERIAL
-                    '            Dim skuName = row.Item(index).ToString
-                    '            Dim existingSku = KMEntity.SKUs.Where(Function(p) p.NAME = skuName).FirstOrDefault
-                    '            If existingSku IsNot Nothing Then
-                    '                inventory.SKU_LINK_ID = existingSku.ID
-                    '            End If
-                    '        Case My.Settings.LOCATION
-                    '            If IsNumeric(row.Item(index)) = False Then
-                    '                Continue For
-                    '            End If
-
-                    '        Case My.Settings.INVENTORY_QTY
-                    '            If IsNumeric(row.Item(index)) = False Then
-                    '                Continue For
-                    '            End If
-                    '            inventory.QTY = row.Item(index).ToString
-                    '    End Select
-                    '    If inventory.SKU_LINK_ID IsNot Nothing AndAlso inventory.LOCATION_LINK_ID IsNot Nothing Then
-                    '        KMEntity.INVENTORies.Add(inventory)
-                    '        KMEntity.SaveChanges()
-                    '    Else
-                    '    End If
-                    '    index += 1
-                    'End While
                 End If
             Next
         Catch ex As Exception
@@ -330,6 +258,22 @@ Public Class ReshufflingView
             CallbackToggleProgressBar()
         End Try
 
+    End Sub
+
+    Private Sub downloadButton_Click(sender As Object, e As RoutedEventArgs)
+        CallbackToggleProgressBar()
+        If reshuffledDatatable IsNot Nothing Then
+            Dim location = Environment.CurrentDirectory + "\ReshuffledData.csv"
+            Using writer As StreamWriter = New StreamWriter(location)
+                Rfc4180Writer.WriteDataTable(reshuffledDatatable, writer, True)
+            End Using
+            Process.Start(location)
+        End If
+        CallbackToggleProgressBar()
+    End Sub
+
+    Private Sub downloadForecastButton_Click(sender As Object, e As RoutedEventArgs)
+        Process.Start(foreCastExcelLocation)
     End Sub
 End Class
 
