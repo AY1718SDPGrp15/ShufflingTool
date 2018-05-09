@@ -8,7 +8,7 @@ package.check <- lapply(packages, FUN = function(x) {   #function to to check if
 })
 
 formatData <- function(data) {
-  data$Document.Date <- as.Date(as.character(data$Document.Date),"%d/%m/%Y") #this part check w bilguun default date format that is passed 
+  data$Document.Date <- as.Date(as.character(data$Document.Date),"%d/%m/%Y") #this part check w bilguun default date format that is passed from SQL 
   data$Order.Quantity<-as.numeric(as.character(data$Order.Quantity))
   return (data)
 }
@@ -66,9 +66,25 @@ getForecast <- function(timeseries, num) {
   if (sum(timeseries == 0) < (length(timeseries))%/%2) {
     fitA <- auto.arima(timeseries)
     fcValuesA <- forecast(fitA, h = num)
-    test <- as.data.frame(fcValuesA)
-    test <- test[c("Point Forecast")]
-    return (test)
+    testA <- as.data.frame(fcValuesA)
+    testA <- testA[c("Point Forecast")]
+    
+    fitE <- ets(timeseries)
+    fcValuesE <- forecast(fitE, h = num)
+    testE <- as.data.frame(fcValuesE)
+    testE <- testE[c("Point Forecast")]
+    
+    dfP <- data.frame(ds = as.yearmon(time(timeseries)), y = timeseries)
+    fitP <- prophet(dfP)
+    future <- make_future_dataframe(fitP, periods = num, freq = 'month')
+    fcValuesP <- predict(fitP, tail(future, num))
+    testP <- as.data.frame(fcValuesP)
+    testP <- testP[c("yhat")]
+    rownames(testP) <- as.yearmon(fcValuesP$ds)
+    
+    consolidated <- cbind(testA,testE, testP)
+    testAve <- as.data.frame(rowMeans(consolidated))
+    return (testAve)
     
   } else {
     fcValues <- croston(timeseries, h = num)$mean
@@ -78,7 +94,23 @@ getForecast <- function(timeseries, num) {
   } 
 }
 
+computeMAE <- function(actual, predicted) {
+  error <- actual - predicted
+  return(colMeans(abs(error)))
+}
+
+computeMASE <- function(forecast,train,test) {
+  n <- length(train)
+  scalingFactor <- sum(abs(train[2:n] - train[1:(n-1)])) / (n-1)
+  et <- abs(test-forecast)
+  qt <- et/scalingFactor
+  meanMASE <- mean(qt)
+  return(meanMASE)
+}
+
 testAccuracy <- function (tsObj, startDate) {
+  accuracyInd <- data.frame(MAE = NA, y = NA)
+  
   if(length(tsObj) <= 4) {
     return(NA)
     
@@ -94,21 +126,38 @@ testAccuracy <- function (tsObj, startDate) {
     trainSize <- length(tsObj) - 5
     testSize <- 5
   }
+  
   MAE <- tryCatch( 
     {
       trainset <- ts(tsObj[1:trainSize],start=as.numeric(startDate),frequency = 12)
       testset <- tsObj[length(tsObj) - ((testSize-1):0)]
+      
       if (sum(tsObj == 0) < (length(tsObj))%/%2) {
-        testForecast <- forecast(auto.arima(trainset),h=testSize)
-        accuracy(testForecast$mean,testset)[,"MAE"]
+        testForecastA <- as.data.frame(forecast(auto.arima(trainset),h=testSize))
+        testForecastA <- testForecastA[c("Point Forecast")]
+        testForecastS <- as.data.frame(forecast(ets(trainset),h=testSize))
+        testForecastS <- testForecastS[c("Point Forecast")]
+        testdfP <- data.frame(ds = as.yearmon(time(trainset)), y = trainset)
+        testFitP <- prophet(testdfP)
+        testFuture <- make_future_dataframe(testFitP, periods = testSize, freq = 'month')
+        testValP <- predict(testFitP, tail(testFuture, testSize))
+        testForecastP <- as.data.frame(testValP)
+        testForecastP <- testForecastP[c("yhat")]
+        rownames(testForecastP) <- as.yearmon(testValP$ds)
+        testForecastAve <- cbind(testForecastA,testForecastS,testForecastP)
+        testForecastAve <- as.data.frame(rowMeans(testForecastAve))
+        computeMAE(as.data.frame(testset),testForecastAve)
+        # computeMASE(testForecastAve[,1], as.vector(trainset), as.vector(testset))
         
       } else if (sum(trainset == 0) > (length(trainset)-2)) {
-        testForecast <- croston(trainset, h = testSize)
-        accuracy(testForecast$mean,testset)[,"MAE"]
+        testForecastC <- croston(trainset, h = testSize)
+        accuracy(testForecastC$mean,testset)[,"MAE"]
+        #accuracy(testForecastC$mean,testset,d=1, D=0)[2,"MASE"]
         
       } else {
-        testForecast <- crost(trainset, h = testSize)
-        accuracy(testForecast$frc.out,testset)[,"MAE"]
+        testForecastC <- crost(trainset, h = testSize)
+        accuracy(testForecastC$frc.out,testset)[,"MAE"]
+        #accuracy(testForecastC$frc.out,testset,d=1, D=0)[2,"MASE"]
       }
       
     }, error=function(cond) {

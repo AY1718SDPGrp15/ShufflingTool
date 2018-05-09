@@ -263,7 +263,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
-    <Content Include="KONICA_MINOLTA_DB.edmx.sql" />
     <Resource Include="Resources\NewDBButton.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -276,6 +275,16 @@
     <Resource Include="Resources\NewRSButton2.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="KONICA_MINOLTA_DB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KONICA_MINOLTA_DB.edmx</DependentUpon>
+      <LastGenOutput>KONICA_MINOLTA_DB.Context.vb</LastGenOutput>
+    </Content>
+    <Content Include="KONICA_MINOLTA_DB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KONICA_MINOLTA_DB.edmx</DependentUpon>
+      <LastGenOutput>KONICA_MINOLTA_DB.vb</LastGenOutput>
+    </Content>
     <Content Include="RFunctions.R">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -291,18 +300,6 @@
   <ItemGroup>
     <Resource Include="Shuffle.ico" />
     <Resource Include="KMLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="KONICA_MINOLTA_DB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KONICA_MINOLTA_DB.edmx</DependentUpon>
-      <LastGenOutput>KONICA_MINOLTA_DB.Context.vb</LastGenOutput>
-    </Content>
-    <Content Include="KONICA_MINOLTA_DB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KONICA_MINOLTA_DB.edmx</DependentUpon>
-      <LastGenOutput>KONICA_MINOLTA_DB.vb</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
