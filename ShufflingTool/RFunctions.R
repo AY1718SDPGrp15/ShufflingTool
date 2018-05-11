@@ -7,30 +7,30 @@ package.check <- lapply(packages, FUN = function(x) {   #function to to check if
   }
 })
 
-formatData <- function(data) {
-  data$Document.Date <- as.Date(as.character(data$Document.Date),"%d/%m/%Y") #this part check w bilguun default date format that is passed from SQL 
+formatData <- function(data) {   #fn to map data into appropriate format for manupulation
+  data$Document.Date <- as.Date(as.character(data$Document.Date),"%m/%d/%Y") #this part check w bilguun default date format that is passed from SQL, should be dmy
   data$Order.Quantity<-as.numeric(as.character(data$Order.Quantity))
   return (data)
 }
 
-cleanData <- function (data) {
+cleanData <- function (data) { #fn to extract relevant data and clean data, removing missing values
   data <- data[!(data$Material == "" | data$Storage.Location == "" | data$Order.Quantity < 0), ]
   data <- data[complete.cases(data),]
   return(data)
 }
 
-aggregateMonthlyData <- function(dataTable) {
+aggregateMonthlyData <- function(dataTable) {  #fn to aggregate demand by month, can be further developed to aggregate in diff ways e.g. not 1st to 31st to include lead time
   monthlyData <- aggregate(dataTable$Order.Quantity, by=list(Storage.Location = dataTable$Storage.Location, Material = dataTable$Material, Date = (substr(dataTable$Document.Date,1,7))), FUN=sum)
   colnames(monthlyData)[4] <- "Demand"
   return (monthlyData)
 }
 
-catByLocSKU <- function(dataTable){
+catByLocSKU <- function(dataTable){  #fn to categorise the entire data
   skuList <- split(dataTable, with(dataTable, interaction(Storage.Location,Material)), drop = TRUE)
   return (skuList)
 }
 
-createTimeLine <- function(dataTable) {               #create continuous monthly time seq
+createTimeLine <- function(dataTable) {           #fn to create continuous monthly time seq
   dataTable <- dataTable[order(dataTable$Date),]
   startDate <- as.character(head(dataTable$Date,1))
   startDate <- as.Date(paste0(startDate,"01"), "%Y-%m%d")
@@ -44,7 +44,7 @@ createTimeLine <- function(dataTable) {               #create continuous monthly
   }
 }
 
-createTimeSeriesObj <- function(sku, tl) {        #create time series obj for demand forecast
+createTimeSeriesObj <- function(sku, tl) {        #fn to create time series obj for demand forecast
   recordedValues <- data.frame(date = sku$Date, values = sku$Demand)
   timeValSeq <- merge(x = tl, y = recordedValues, by = "date", all.x = TRUE)
   timeValSeq[is.na(timeValSeq)] <- 0
@@ -62,19 +62,19 @@ createTimeSeriesObj <- function(sku, tl) {        #create time series obj for de
   return (tsObj)
 } 
 
-getForecast <- function(timeseries, num) {
-  if (sum(timeseries == 0) < (length(timeseries))%/%2) {
-    fitA <- auto.arima(timeseries)
+getForecast <- function(timeseries, num) {  #fn to return forecast of the diff types of demand
+  if (sum(timeseries == 0) < (length(timeseries))%/%2) {  #non-intermittent type
+    fitA <- auto.arima(timeseries)          #auto.arima algo
     fcValuesA <- forecast(fitA, h = num)
     testA <- as.data.frame(fcValuesA)
     testA <- testA[c("Point Forecast")]
     
-    fitE <- ets(timeseries)
+    fitE <- ets(timeseries)               #ets algo
     fcValuesE <- forecast(fitE, h = num)
     testE <- as.data.frame(fcValuesE)
     testE <- testE[c("Point Forecast")]
     
-    dfP <- data.frame(ds = as.yearmon(time(timeseries)), y = timeseries)
+    dfP <- data.frame(ds = as.yearmon(time(timeseries)), y = timeseries)   #prophet algo
     fitP <- prophet(dfP)
     future <- make_future_dataframe(fitP, periods = num, freq = 'month')
     fcValuesP <- predict(fitP, tail(future, num))
@@ -82,11 +82,16 @@ getForecast <- function(timeseries, num) {
     testP <- testP[c("yhat")]
     rownames(testP) <- as.yearmon(fcValuesP$ds)
     
-    consolidated <- cbind(testA,testE, testP)
+    # fitN <- nnetar(tsclean(timeseries))    # can include nueral network forecast algo when there are more demand data, cant work currently as data is less than 2 periods 
+    # fcValuesN <- forecast(fitN, h = 5)
+    # testN <- as.data.frame(fcValuesN)
+    # testN <- testN[c("Point Forecast")]
+    
+    consolidated <- cbind(testA,testE, testP)      #ave of the algo
     testAve <- as.data.frame(rowMeans(consolidated))
     return (testAve)
     
-  } else {
+  } else {            #intermittent type
     fcValues <- croston(timeseries, h = num)$mean
     test <- as.data.frame(fcValues)
     rownames(test) <- as.yearmon(time(fcValues))
@@ -108,9 +113,8 @@ computeMASE <- function(forecast,train,test) {
   return(meanMASE)
 }
 
-testAccuracy <- function (tsObj, startDate) {
-  accuracyInd <- data.frame(MAE = NA, y = NA)
-  
+testAccuracy <- function (tsObj, startDate) {   #fn to return accuracy indicator
+ 
   if(length(tsObj) <= 4) {
     return(NA)
     
@@ -127,7 +131,7 @@ testAccuracy <- function (tsObj, startDate) {
     testSize <- 5
   }
   
-  MAE <- tryCatch( 
+  accuracyInd <- tryCatch( 
     {
       trainset <- ts(tsObj[1:trainSize],start=as.numeric(startDate),frequency = 12)
       testset <- tsObj[length(tsObj) - ((testSize-1):0)]
@@ -146,18 +150,21 @@ testAccuracy <- function (tsObj, startDate) {
         rownames(testForecastP) <- as.yearmon(testValP$ds)
         testForecastAve <- cbind(testForecastA,testForecastS,testForecastP)
         testForecastAve <- as.data.frame(rowMeans(testForecastAve))
-        computeMAE(as.data.frame(testset),testForecastAve)
-        # computeMASE(testForecastAve[,1], as.vector(trainset), as.vector(testset))
+        MAE <- computeMAE(as.data.frame(testset),testForecastAve)
+        MASE <- computeMASE(testForecastAve[,1], as.vector(trainset), as.vector(testset))
+        data.frame(MAE = MAE,MASE = MASE)
         
       } else if (sum(trainset == 0) > (length(trainset)-2)) {
         testForecastC <- croston(trainset, h = testSize)
-        accuracy(testForecastC$mean,testset)[,"MAE"]
-        #accuracy(testForecastC$mean,testset,d=1, D=0)[2,"MASE"]
+        MAE <- computeMAE(as.data.frame(testset),as.data.frame(testForecastC$mean))
+        MASE <- computeMASE(as.vector(testForecastC$mean), as.vector(trainset), as.vector(testset))
+        data.frame(MAE = MAE, MASE = MASE)
         
       } else {
-        testForecastC <- crost(trainset, h = testSize)
-        accuracy(testForecastC$frc.out,testset)[,"MAE"]
-        #accuracy(testForecastC$frc.out,testset,d=1, D=0)[2,"MASE"]
+        testForecastCr <- crost(trainset, h = testSize)
+        MAE <- computeMAE(as.data.frame(testset),as.data.frame(testForecastCr$frc.out))
+        MASE <- computeMASE(as.vector(testForecastCr$frc.out), as.vector(trainset), as.vector(testset))
+        data.frame(MAE = MAE, MASE = MASE)
       }
       
     }, error=function(cond) {
@@ -166,11 +173,11 @@ testAccuracy <- function (tsObj, startDate) {
       return(NA)
     }
   )
-  return (MAE)
+  return (accuracyInd)
 }
 
 
-forecastDemand <- function(skuData, timeLine, period) {
+forecastDemand <- function(skuData, timeLine, period) {   #main fn to get consolidated forecast results
   allForecastTable <- data.frame()
   if (is.null(skuData) | length(skuData) == 0 | is.null(timeLine)) {
     return (NULL)
@@ -180,8 +187,8 @@ forecastDemand <- function(skuData, timeLine, period) {
       if (!is.null(demandTS)) {
         forecastVal <- getForecast(demandTS, period) 
         firstDate <- c(substr(as.character(head(timeLine$date,1)),1,4), substr(as.character(head(timeLine$date,1)),6,7))
-        MAE <- testAccuracy(demandTS, firstDate)
-        outputTable <- data.frame(Date = rownames(forecastVal), Location = item$Storage.Location[[1]], SKU = item$Material[[1]], PointForecast = unname(forecastVal), MAE = MAE)
+        accuracy <- testAccuracy(demandTS, firstDate)
+        outputTable <- data.frame(Date = rownames(forecastVal), Location = item$Storage.Location[[1]], SKU = item$Material[[1]], PointForecast = unname(forecastVal), MAE= accuracy["MAE"], MASE = accuracy["MASE"])
         allForecastTable <- rbind(allForecastTable,outputTable)
       }
     }
